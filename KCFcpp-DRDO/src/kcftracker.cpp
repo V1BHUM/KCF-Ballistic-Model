@@ -411,8 +411,9 @@ cv::Mat KCFTracker::getFeatures(const cv::Mat & image, bool inithann, float scal
     if(history.size()>Q_Size)
     history.pop_front();
     double ma1 = 0,ma2 = 0,dist;
-    for(auto it = history.begin();it!=history.end();it++)
+    for(auto it = history.begin();it!=history.end()-1;it++)
     {
+        cv::line(image,*it,*(it+1),cv::Scalar(255,255,255),2,8);
         cv::circle(image,*it,2,cv::Scalar(0, 0, 255),-1);
     }
     for(auto it = history.begin()+1;it<=history.end();it++)
@@ -435,14 +436,14 @@ cv::Mat KCFTracker::getFeatures(const cv::Mat & image, bool inithann, float scal
             las = cv::Point(0,0);
         }
         col = cv::Scalar(0,0,255);
-        cv::arrowedLine(image,start,end,cv::Scalar(255, 0, 255),2,8,0,0.2);
+        cv::arrowedLine(image,start,end,cv::Scalar(255, 0, 255),2,16,0,0.2);
         if(norm(end-start)>norm(las))
             las = end-start;
     }
     else
     {
         col = cv::Scalar(255,0,0);
-        cv::arrowedLine(image,start,start+las,cv::Scalar(255, 255, 255),2,8,0,0.2);
+        cv::arrowedLine(image,start,start+las,cv::Scalar(255, 255, 255),2,16,0,0.2);
         eng = false;
     }
     // std::cout<<extracted_roi.width/_roi.width<<' '<<extracted_roi.width/_roi.width<<std::endl;  
